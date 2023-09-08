@@ -9,7 +9,7 @@ class MainHome extends StatelessWidget {
   
   String room = (Random().nextInt(10000000)+ 1000000).toString();
   createNewMeeting(String room) {
-    JitsiMeetMethod().createMeeting(room, true, true);
+    JitsiMeetMethod().createMeeting(room: room, isAudioMuted: false, isVideoMuted: true);
   }
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,9 @@ class MainHome extends StatelessWidget {
               HomeButton(
                 icon: Icons.add_box_sharp,
                 text: "Join Meeting",
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamed(context, '/joinmeeting');
+                },
               ),
               HomeButton(
                 icon: Icons.calendar_today_rounded,

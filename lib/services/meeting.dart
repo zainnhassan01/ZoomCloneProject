@@ -5,20 +5,19 @@ import 'package:zoomcloneproject/services/firebaseauth.dart';
 class JitsiMeetMethod {
   final User? user = AuthService().user;
   final JitsiMeet _jitsiMeet = JitsiMeet();
-  void createMeeting(String room,bool isAudioMuted,bool isVideoMuted) {
+  void createMeeting({required String room,required bool isAudioMuted,required bool isVideoMuted,String? username}) async {
     try{
       var options = JitsiMeetConferenceOptions(
       room: room,
       configOverrides: {
         "startWithAudioMuted": isAudioMuted,
         "startWithVideoMuted": isVideoMuted,
-        "subject" : "Jitsi with Flutter",
       },
       featureFlags: {
         "unsaferoomwarning.enabled": false
       },
       userInfo: JitsiMeetUserInfo(
-          displayName: user?.displayName ?? "User",
+          displayName: username ?? user?.displayName ?? "User",
           email: user?.email
       ),
     );

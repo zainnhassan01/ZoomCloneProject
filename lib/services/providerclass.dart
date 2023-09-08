@@ -21,4 +21,18 @@ class ProviderClass extends ChangeNotifier{
     _page = value;
     notifyListeners();
   }
+  //for the switch in join meeting
+  bool _isAudioMute = true;
+  bool get isAudioMute => _isAudioMute;
+  bool _isVideoMute = true;
+  bool get isVideoMute => _isVideoMute;
+
+  void onAudioChange (bool value){
+    _isAudioMute = value;
+    notifyListeners();
+  }
+  void onVideoChange (bool value){
+    _isVideoMute = value;
+    notifyListeners();
+  }
 }
