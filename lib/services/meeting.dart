@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:jitsi_meet_flutter_sdk/jitsi_meet_flutter_sdk.dart';
 import 'package:zoomcloneproject/services/firebaseauth.dart';
+import 'package:zoomcloneproject/services/firestore.dart';
 
 class JitsiMeetMethod {
   final User? user = AuthService().user;
@@ -21,6 +22,7 @@ class JitsiMeetMethod {
           email: user?.email
       ),
     );
+    FirestoreMethods().addMeetingtoFirestore(room);
     _jitsiMeet.join(options);
     } catch(e){
       print("Error Starting meeting $e");

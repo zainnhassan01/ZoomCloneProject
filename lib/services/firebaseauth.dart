@@ -35,4 +35,13 @@ class AuthService {
       print("login error $e");
       return e.message!;    }
   }
+  //sign out
+  dynamic signOut () async {
+    try{
+    await _auth.signOut();
+    return null;
+    }on FirebaseAuthException catch(e){
+      return e.message;
+    }
+  }
 }

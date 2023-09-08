@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zoomcloneproject/screens/history_meeting.dart';
 import 'package:zoomcloneproject/screens/home.dart';
+import 'package:zoomcloneproject/screens/settings.dart';
 import 'package:zoomcloneproject/services/providerclass.dart';
 import 'package:zoomcloneproject/utilities/colors.dart';
 
@@ -11,7 +12,7 @@ class Home extends StatelessWidget {
     MainHome(),
     const HistoryMeetings(),
     const Text("Contacts"),
-    const Text("Settins"),
+    const Settings(),
   ];
   @override
   Widget build(BuildContext context) {
@@ -32,7 +33,7 @@ class Home extends StatelessWidget {
         unselectedFontSize: 14,
         selectedItemColor: Colors.white,
         unselectedItemColor: Colors.grey,
-        items: [
+        items: const [
           BottomNavigationBarItem(
             label: "Meet & Chat",
             icon: Icon(Icons.comment_bank,),

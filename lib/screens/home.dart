@@ -9,7 +9,7 @@ class MainHome extends StatelessWidget {
   
   String room = (Random().nextInt(10000000)+ 1000000).toString();
   createNewMeeting(String room) {
-    JitsiMeetMethod().createMeeting(room: room, isAudioMuted: false, isVideoMuted: true);
+    JitsiMeetMethod().createMeeting(room: room, isAudioMuted: true, isVideoMuted: true);
   }
   @override
   Widget build(BuildContext context) {
