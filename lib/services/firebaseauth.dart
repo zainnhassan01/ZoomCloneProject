@@ -26,7 +26,11 @@ class AuthService {
     );
     final UserCredential result = await _auth.signInWithCredential(credential);
     final User? user = result.user;
-    print("Login success");
+    if(user != null){
+      return user.displayName;
+    }else {
+      return null;
+    }
     } on FirebaseAuthException catch(e){
       print("login error $e");
       return e.message!;    }
