@@ -7,14 +7,14 @@ import 'package:zoomcloneproject/data%20models/userStream.dart';
 class AuthService {
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
-
+  User? user;
   UserStreamModel? _userData (User? user) {
     return user != null? UserStreamModel(uid: user.uid) : null;
   }
   Stream<UserStreamModel?> get userStream {
     return _auth.authStateChanges().map((event) => _userData(event));
   }
-
+  
   dynamic signInWithGoogle() async{
     try{
     final GoogleSignIn googleSignIn = GoogleSignIn();
@@ -25,9 +25,9 @@ class AuthService {
       accessToken: gAuth.accessToken,
     );
     final UserCredential result = await _auth.signInWithCredential(credential);
-    final User? user = result.user;
+    user = result.user;
     if(user != null){
-      return user.displayName;
+      return user!.displayName;
     }else {
       return null;
     }

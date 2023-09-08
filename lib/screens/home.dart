@@ -1,9 +1,16 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:zoomcloneproject/services/meeting.dart';
 import 'package:zoomcloneproject/widgets/homebutton.dart';
 
 class MainHome extends StatelessWidget {
-  const MainHome({super.key});
-
+  MainHome({super.key});
+  
+  String room = (Random().nextInt(10000000)+ 1000000).toString();
+  createNewMeeting(String room) {
+    JitsiMeetMethod().createMeeting(room, true, true);
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,7 +22,7 @@ class MainHome extends StatelessWidget {
               HomeButton(
                 icon: Icons.videocam,
                 text: "New Meeting",
-                onPressed: () {},
+                onPressed: () => createNewMeeting(room),
               ),
               HomeButton(
                 icon: Icons.add_box_sharp,

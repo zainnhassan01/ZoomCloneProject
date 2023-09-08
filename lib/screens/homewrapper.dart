@@ -8,7 +8,7 @@ import 'package:zoomcloneproject/utilities/colors.dart';
 class Home extends StatelessWidget {
    Home({super.key});
   List<Widget> pages = [
-    const MainHome(),
+    MainHome(),
     const HistoryMeetings(),
     const Text("Contacts"),
     const Text("Settins"),
