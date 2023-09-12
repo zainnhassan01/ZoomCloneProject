@@ -14,7 +14,7 @@ class Login extends StatelessWidget {
   Widget build(BuildContext context) {
     void errorMessage(String? result) {
       final showSnackBarWiget = SnackBar(
-        content: Text("Login Error: $result"),
+        content: Text("Login: $result"),
       );
       ScaffoldMessenger.of(context).showSnackBar(showSnackBarWiget);
     }

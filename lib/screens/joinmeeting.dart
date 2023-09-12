@@ -1,10 +1,12 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:zoomcloneproject/screens/meetingroom.dart';
 import 'package:zoomcloneproject/services/firebaseauth.dart';
+import 'package:zoomcloneproject/services/firestore.dart';
 import 'package:zoomcloneproject/utilities/colors.dart';
 import 'package:zoomcloneproject/widgets/meeting_option.dart';
-
-import '../services/meeting.dart';
 import '../services/providerclass.dart';
 
 class JoinMeeting extends StatefulWidget {
@@ -17,23 +19,33 @@ class JoinMeeting extends StatefulWidget {
 class _JoinMeetingState extends State<JoinMeeting> {
   late TextEditingController _roomIdController;
   late TextEditingController _nameController;
-  final JitsiMeetMethod _jitsiMeetMethod = JitsiMeetMethod();
+  final String photoURL = AuthService().currentUserphotoURL(AuthService().user) ?? "https://pixabay.com/vectors/blank-profile-picture-mystery-man-973460/";
   final AuthService _authService = AuthService();
   @override
   void initState() {
     _roomIdController = TextEditingController();
-    _nameController = TextEditingController(text: _authService.user?.displayName  ?? "UserName");
+    _nameController = TextEditingController(
+        text: _authService.currentUserName(_authService.user) ?? "UserName");
     super.initState();
   }
-  
-  
+
   @override
   Widget build(BuildContext context) {
     bool audio = context.watch<ProviderClass>().isAudioMute;
     bool video = context.watch<ProviderClass>().isVideoMute;
     void joinMeeting() {
-    _jitsiMeetMethod.createMeeting(room: _roomIdController.text, isAudioMuted: audio, isVideoMuted: video,username: _nameController.text,);
-  }
+    FirestoreMethods().addMeetingtoFirestore(_roomIdController.text);
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => VideoConferencePage(
+                    conferenceID: _roomIdController.text,
+                    username: _nameController.text,
+                    audio: audio,
+                    video: video, uid: AuthService().currentUserId(AuthService().user) ?? (Random().nextInt(10000000)+1000000).toString(),
+                    photoURL: photoURL,
+                  )));
+    }
     return Scaffold(
       appBar: AppBar(
         backgroundColor: backgroundColor,
@@ -55,10 +67,12 @@ class _JoinMeetingState extends State<JoinMeeting> {
               fillColor: secondaryBackgroundColor,
               hintText: "Room ID",
               border: InputBorder.none,
-              contentPadding: EdgeInsets.fromLTRB(20.0,16,0,16),
+              contentPadding: EdgeInsets.fromLTRB(20.0, 16, 0, 16),
             ),
           ),
-          const SizedBox(height: 10,),
+          const SizedBox(
+            height: 10,
+          ),
           TextFormField(
             controller: _nameController,
             maxLines: 1,
@@ -66,16 +80,29 @@ class _JoinMeetingState extends State<JoinMeeting> {
               filled: true,
               fillColor: secondaryBackgroundColor,
               border: InputBorder.none,
-              contentPadding: EdgeInsets.fromLTRB(20.0,16,0,16),
+              contentPadding: EdgeInsets.fromLTRB(20.0, 16, 0, 16),
             ),
           ),
-          const SizedBox(height: 20,),
+          const SizedBox(
+            height: 20,
+          ),
           InkWell(
             onTap: joinMeeting,
-            child: const Text("Join",style: TextStyle(fontSize: 20),),
+            child: const Text(
+              "Join",
+              style: TextStyle(fontSize: 20),
+            ),
           ),
-          MeetingOption(onChanged:(value) =>  context.read<ProviderClass>().onAudioChange(value), text: "Mute Audio", value: audio),
-          MeetingOption(onChanged:(value) =>  context.read<ProviderClass>().onVideoChange(value), text: "Mute Video", value: video),
+          MeetingOption(
+              onChanged: (value) =>
+                  context.read<ProviderClass>().onAudioChange(value),
+              text: "Mute Audio",
+              value: audio),
+          MeetingOption(
+              onChanged: (value) =>
+                  context.read<ProviderClass>().onVideoChange(value),
+              text: "Mute Video",
+              value: video),
         ],
       ),
     );

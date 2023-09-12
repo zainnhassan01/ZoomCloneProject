@@ -35,4 +35,11 @@ class ProviderClass extends ChangeNotifier{
     _isVideoMute = value;
     notifyListeners();
   }
+  // conference settings
+  bool _conference = false;
+  bool get conference => _conference;
+  void setConference(bool value){
+    _conference = value;
+    notifyListeners();
+  }
 }
